@@ -7,348 +7,222 @@ package com.xsoft.xchoolar.data_jpa.administration;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.xsoft.xchoolar.data_jpa.ESexe;
-import com.xsoft.xchoolar.data_jpa.ESitMatrim;
 
 @Entity
 public class Personnel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@NotEmpty
-	// @Pattern(regexp=)
-	private String matricule;
-	@NotEmpty
-	private String nom;
-	private String prenom;
+	private int id;
 	@NotNull
-	private ESexe sexe;
+	private Date dateDebut;
+	private Date dateFin;
 	@NotNull
-	private Date dateNaissance;
+	private Double salaire;
 	@NotNull
-	private Date dateEmbauche;
-	@NotEmpty
-	private String quartier;
-	private ESitMatrim situationMatrimonial;
-	private Integer nombreD_enfant;
-	private String nomConjoint;
-	private String prenomConjoint;
-	@NotEmpty
-	private String numerosCni;
-	@NotNull
-	private Date dateDelivranceCni;
-	@NotEmpty
-	private String telephone1;
-	private String telephone2;
-	@Email
-	private String email;
-	private String diplome;
-	private Date dateObtentionDiplome;
-	public Personnel(String matricule, String nom, String prenom,  ESexe sexe, Date dateNaissance, Date dateEmbauche, String quartier,
-			String numerosCni, Date dateDelivranceCni, String telephone1) {
+	@ManyToOne
+	private Ecole ecole;
+	@ManyToOne
+	private Employe employe;
+	
+	private boolean enseignant;
+	 @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL, orphanRemoval = true)
+	 public java.util.List<Administratif> fonctionsAdministrative;
+	 
+	public Personnel(Date dateDebut, Date dateFin, Double salaire, Ecole ecole, Employe employe) {
 		super();
-		this.matricule = matricule;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.sexe = sexe;
-		this.dateNaissance = dateNaissance;
-		this.dateEmbauche = dateEmbauche;
-		this.quartier = quartier;
-		this.numerosCni = numerosCni;
-		this.dateDelivranceCni = dateDelivranceCni;
-		this.telephone1 = telephone1;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.salaire = salaire;
+		this.ecole = ecole;
+		this.employe = employe;
 	}
-	public Personnel(String matricule, String nom, String prenom, ESexe sexe, Date dateNaissance, Date dateEmbauche,
-			String quartier, ESitMatrim situationMatrimonial, Integer nombreD_enfant, String nomConjoint,
-			String prenomConjoint, String numerosCni, Date dateDelivranceCni, String telephone1, String telephone2,
-			String email, String diplome, Date dateObtentionDiplome) {
-		super();
-		this.matricule = matricule;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.sexe = sexe;
-		this.dateNaissance = dateNaissance;
-		this.dateEmbauche = dateEmbauche;
-		this.quartier = quartier;
-		this.situationMatrimonial = situationMatrimonial;
-		this.nombreD_enfant = nombreD_enfant;
-		this.nomConjoint = nomConjoint;
-		this.prenomConjoint = prenomConjoint;
-		this.numerosCni = numerosCni;
-		this.dateDelivranceCni = dateDelivranceCni;
-		this.telephone1 = telephone1;
-		this.telephone2 = telephone2;
-		this.email = email;
-		this.diplome = diplome;
-		this.dateObtentionDiplome = dateObtentionDiplome;
-	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return String.format(
-				"Personnel [matricule=%s, nom=%s, prenom=%s, sexe=%s, dateNaissance=%s, dateEmbauche=%s, quartier=%s, numerosCni=%s, dateDelivranceCni=%s, telephone1=%s]",
-				matricule, nom, prenom, sexe, dateNaissance, dateEmbauche, quartier, numerosCni, dateDelivranceCni,
-				telephone1);
+		return String.format("Personnel [id=%s, dateDebut=%s, dateFin=%s, salaire=%s, ecole=%s, employe=%s]", id,
+				dateDebut, dateFin, salaire, ecole, employe);
 	}
+
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
+
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
+
 	/**
-	 * @return the matricule
+	 * @return the dateDebut
 	 */
-	public String getMatricule() {
-		return matricule;
+	public Date getDateDebut() {
+		return dateDebut;
 	}
+
 	/**
-	 * @param matricule the matricule to set
+	 * @param dateDebut
+	 *            the dateDebut to set
 	 */
-	public void setMatricule(String matricule) {
-		this.matricule = matricule;
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
 	}
+
 	/**
-	 * @return the nom
+	 * @return the dateFin
 	 */
-	public String getNom() {
-		return nom;
+	public Date getDateFin() {
+		return dateFin;
 	}
+
 	/**
-	 * @param nom the nom to set
+	 * @param dateFin
+	 *            the dateFin to set
 	 */
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setDateFin(Date dateFin) {
+		this.dateFin = dateFin;
 	}
+
 	/**
-	 * @return the prenom
+	 * @return the salaire
 	 */
-	public String getPrenom() {
-		return prenom;
+	public Double getSalaire() {
+		return salaire;
 	}
+
 	/**
-	 * @param prenom the prenom to set
+	 * @param salaire
+	 *            the salaire to set
 	 */
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setSalaire(Double salaire) {
+		this.salaire = salaire;
 	}
+
 	/**
-	 * @return the sexe
+	 * @return the ecole
 	 */
-	public ESexe getSexe() {
-		return sexe;
+	public Ecole getEcole() {
+		return ecole;
 	}
+
 	/**
-	 * @param sexe the sexe to set
+	 * @param ecole
+	 *            the ecole to set
 	 */
-	public void setSexe(ESexe sexe) {
-		this.sexe = sexe;
+	public void setEcole(Ecole ecole) {
+		this.ecole = ecole;
 	}
+
 	/**
-	 * @return the dateNaissance
+	 * @return the employe
 	 */
-	public Date getDateNaissance() {
-		return dateNaissance;
+	public Employe getPersonnel() {
+		return employe;
 	}
+
 	/**
-	 * @param dateNaissance the dateNaissance to set
+	 * @param employe
+	 *            the employe to set
 	 */
-	public void setDateNaissance(Date dateNaissance) {
-		this.dateNaissance = dateNaissance;
+	public void setPersonnel(Employe employe) {
+		this.employe = employe;
 	}
-	/**
-	 * @return the dateEmbauche
-	 */
-	public Date getDateEmbauche() {
-		return dateEmbauche;
-	}
-	/**
-	 * @param dateEmbauche the dateEmbauche to set
-	 */
-	public void setDateEmbauche(Date dateEmbauche) {
-		this.dateEmbauche = dateEmbauche;
-	}
-	/**
-	 * @return the quartier
-	 */
-	public String getQuartier() {
-		return quartier;
-	}
-	/**
-	 * @param quartier the quartier to set
-	 */
-	public void setQuartier(String quartier) {
-		this.quartier = quartier;
-	}
-	/**
-	 * @return the situationMatrimonial
-	 */
-	public ESitMatrim getSituationMatrimonial() {
-		return situationMatrimonial;
-	}
-	/**
-	 * @param situationMatrimonial the situationMatrimonial to set
-	 */
-	public void setSituationMatrimonial(ESitMatrim situationMatrimonial) {
-		this.situationMatrimonial = situationMatrimonial;
-	}
-	/**
-	 * @return the nombreD_enfant
-	 */
-	public Integer getNombreD_enfant() {
-		return nombreD_enfant;
-	}
-	/**
-	 * @param nombreD_enfant the nombreD_enfant to set
-	 */
-	public void setNombreD_enfant(Integer nombreD_enfant) {
-		this.nombreD_enfant = nombreD_enfant;
-	}
-	/**
-	 * @return the nomConjoint
-	 */
-	public String getNomConjoint() {
-		return nomConjoint;
-	}
-	/**
-	 * @param nomConjoint the nomConjoint to set
-	 */
-	public void setNomConjoint(String nomConjoint) {
-		this.nomConjoint = nomConjoint;
-	}
-	/**
-	 * @return the prenomConjoint
-	 */
-	public String getPrenomConjoint() {
-		return prenomConjoint;
-	}
-	/**
-	 * @param prenomConjoint the prenomConjoint to set
-	 */
-	public void setPrenomConjoint(String prenomConjoint) {
-		this.prenomConjoint = prenomConjoint;
-	}
-	/**
-	 * @return the numerosCni
-	 */
-	public String getNumerosCni() {
-		return numerosCni;
-	}
-	/**
-	 * @param numerosCni the numerosCni to set
-	 */
-	public void setNumerosCni(String numerosCni) {
-		this.numerosCni = numerosCni;
-	}
-	/**
-	 * @return the dateDelivranceCni
-	 */
-	public Date getDateDelivranceCni() {
-		return dateDelivranceCni;
-	}
-	/**
-	 * @param dateDelivranceCni the dateDelivranceCni to set
-	 */
-	public void setDateDelivranceCni(Date dateDelivranceCni) {
-		this.dateDelivranceCni = dateDelivranceCni;
-	}
-	/**
-	 * @return the telephone1
-	 */
-	public String getTelephone1() {
-		return telephone1;
-	}
-	/**
-	 * @param telephone1 the telephone1 to set
-	 */
-	public void setTelephone1(String telephone1) {
-		this.telephone1 = telephone1;
-	}
-	/**
-	 * @return the telephone2
-	 */
-	public String getTelephone2() {
-		return telephone2;
-	}
-	/**
-	 * @param telephone2 the telephone2 to set
-	 */
-	public void setTelephone2(String telephone2) {
-		this.telephone2 = telephone2;
-	}
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	/**
-	 * @return the diplome
-	 */
-	public String getDiplome() {
-		return diplome;
-	}
-	/**
-	 * @param diplome the diplome to set
-	 */
-	public void setDiplome(String diplome) {
-		this.diplome = diplome;
-	}
-	/**
-	 * @return the dateObtentionDiplome
-	 */
-	public Date getDateObtentionDiplome() {
-		return dateObtentionDiplome;
-	}
-	/**
-	 * @param dateObtentionDiplome the dateObtentionDiplome to set
-	 */
-	public void setDateObtentionDiplome(Date dateObtentionDiplome) {
-		this.dateObtentionDiplome = dateObtentionDiplome;
-	}
-	/* (non-Javadoc)
+	/** @pdGenerated default getter */
+	   public java.util.List<Administratif> getFonctionsAdministrative() {
+	      if (fonctionsAdministrative == null)
+	    	  fonctionsAdministrative = new java.util.ArrayList<Administratif>();
+	      return fonctionsAdministrative;
+	   }
+	   
+	   /** @pdGenerated default iterator getter */
+	   public java.util.Iterator getIteratorFonctionsAdministrative() {
+	      if (fonctionsAdministrative == null)
+	    	  fonctionsAdministrative = new java.util.ArrayList<Administratif>();
+	      return fonctionsAdministrative.iterator();
+	   }
+	   
+	   /** @pdGenerated default setter
+	     * @param newAdministratif */
+	   public void setFonctionsAdministrative(java.util.List<Administratif> newAdministratif) {
+	      removeAllFonctionsAdministrative();
+	      for (java.util.Iterator iter = newAdministratif.iterator(); iter.hasNext();)
+	          addFonctionsAdministrative((Administratif)iter.next());
+	   }
+	   
+	   /** @pdGenerated default add
+	     * @param newAdministratif */
+	   public void addFonctionsAdministrative(Administratif newAdministratif) {
+	      if (newAdministratif == null)
+	         return;
+	      if (this.fonctionsAdministrative == null)
+	         this.fonctionsAdministrative = new java.util.ArrayList<Administratif>();
+	      if (!this.fonctionsAdministrative.contains(newAdministratif)){
+	    	  newAdministratif.setPersonnel(this);
+	    	  this.fonctionsAdministrative.add(newAdministratif);
+	      }
+	         
+	   }
+	   
+	   /** @pdGenerated default remove
+	     * @param oldAdministratif */
+	   public void removeFonctionsAdministrative(Administratif oldAdministratif) {
+	      if (oldAdministratif == null)
+	         return;
+	      if (this.fonctionsAdministrative != null)
+	         if (this.fonctionsAdministrative.contains(oldAdministratif)){
+	        	 oldAdministratif.setPersonnel(null);
+	            this.fonctionsAdministrative.remove(oldAdministratif);
+	         }
+	   }
+	   
+	   /** @pdGenerated default removeAll */
+	   public void removeAllFonctionsAdministrative() {
+	      if (fonctionsAdministrative != null){
+	    	  for (java.util.Iterator iter = fonctionsAdministrative.iterator(); iter.hasNext();)
+	              ((Personnel)iter.next()).setEcole(null);
+	    	  fonctionsAdministrative.clear();
+	      }
+	    	  
+	   }
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dateDelivranceCni == null) ? 0 : dateDelivranceCni.hashCode());
-		result = prime * result + ((dateEmbauche == null) ? 0 : dateEmbauche.hashCode());
-		result = prime * result + ((dateNaissance == null) ? 0 : dateNaissance.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((matricule == null) ? 0 : matricule.hashCode());
-		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
-		result = prime * result + ((prenom == null) ? 0 : prenom.hashCode());
-		result = prime * result + ((quartier == null) ? 0 : quartier.hashCode());
-		result = prime * result + ((sexe == null) ? 0 : sexe.hashCode());
-		result = prime * result + ((telephone1 == null) ? 0 : telephone1.hashCode());
+		result = prime * result + ((dateDebut == null) ? 0 : dateDebut.hashCode());
+		result = prime * result + ((dateFin == null) ? 0 : dateFin.hashCode());
+		result = prime * result + ((ecole == null) ? 0 : ecole.hashCode());
+		result = prime * result + ((employe == null) ? 0 : employe.hashCode());
+		result = prime * result + ((salaire == null) ? 0 : salaire.hashCode());
 		return result;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -360,52 +234,30 @@ public class Personnel {
 		if (getClass() != obj.getClass())
 			return false;
 		Personnel other = (Personnel) obj;
-		if (dateDelivranceCni == null) {
-			if (other.dateDelivranceCni != null)
+		if (dateDebut == null) {
+			if (other.dateDebut != null)
 				return false;
-		} else if (!dateDelivranceCni.equals(other.dateDelivranceCni))
+		} else if (!dateDebut.equals(other.dateDebut))
 			return false;
-		if (dateEmbauche == null) {
-			if (other.dateEmbauche != null)
+		if (dateFin == null) {
+			if (other.dateFin != null)
 				return false;
-		} else if (!dateEmbauche.equals(other.dateEmbauche))
+		} else if (!dateFin.equals(other.dateFin))
 			return false;
-		if (dateNaissance == null) {
-			if (other.dateNaissance != null)
+		if (ecole == null) {
+			if (other.ecole != null)
 				return false;
-		} else if (!dateNaissance.equals(other.dateNaissance))
+		} else if (!ecole.equals(other.ecole))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (employe == null) {
+			if (other.employe != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!employe.equals(other.employe))
 			return false;
-		if (matricule == null) {
-			if (other.matricule != null)
+		if (salaire == null) {
+			if (other.salaire != null)
 				return false;
-		} else if (!matricule.equals(other.matricule))
-			return false;
-		if (nom == null) {
-			if (other.nom != null)
-				return false;
-		} else if (!nom.equals(other.nom))
-			return false;
-		if (prenom == null) {
-			if (other.prenom != null)
-				return false;
-		} else if (!prenom.equals(other.prenom))
-			return false;
-		if (quartier == null) {
-			if (other.quartier != null)
-				return false;
-		} else if (!quartier.equals(other.quartier))
-			return false;
-		if (sexe != other.sexe)
-			return false;
-		if (telephone1 == null) {
-			if (other.telephone1 != null)
-				return false;
-		} else if (!telephone1.equals(other.telephone1))
+		} else if (!salaire.equals(other.salaire))
 			return false;
 		return true;
 	}

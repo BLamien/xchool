@@ -2,63 +2,75 @@
  * Module:  Ecole.java
  * Author:  xtel
  * Purpose: Defines the Class Ecole
- ***********************************************************************/ package com.xsoft.xchoolar.data_jpa.administration;
+ ***********************************************************************/ 
+package com.xsoft.xchoolar.data_jpa.administration;
+
+import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
-import scala.annotation.meta.setter;
+import org.hibernate.validator.constraints.NotEmpty;
 
-/** @pdOid 5137a8e8-181e-460f-916a-3d8c61741d11 */
+
+@Entity
 public class Ecole {
-   /** @pdOid 4b4370cc-34cf-41ea-9882-f0231bcc44a4 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
-   /** @pdOid 7f521a8a-7361-4b61-8161-667e93a17b0a */
+	@NotEmpty
+	// @Pattern(regexp=)
    private String code;
-   /** @pdOid 6d49dedb-7a5a-4c28-bf7e-f2240759dc6d */
+	@NotEmpty
    private String nom;
-   /** @pdOid c10e7bb4-bbe6-4f80-a8b5-de49b0236d6e */
+	@NotEmpty
+	   private String numerosAutorisation;
+	@NotNull
+	private Date dateAutorisation;
    private byte logo;
-   /** @pdOid 1630d63d-cd2f-4c47-b794-6257ab26233f */
+   @NotEmpty
    private String quartier;
-   /** @pdOid 6eb64174-02ac-48ec-85e0-b8c5a3f1a3c4 */
+   @NotEmpty
    private String telephone;
    
    @OneToMany(mappedBy = "ecole", cascade = CascadeType.ALL, orphanRemoval = true)
-    public java.util.List<Fonction> personnelEnFonction;
-   /** @pdRoleInfo migr=no name=Enseignant assc=association2 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Aggregation */
-   public java.util.Collection<Enseignant> enseignant;
-   
+    public java.util.List<Personnel> personnelEnFonction;
+      
    
    /** @pdGenerated default getter */
-   public java.util.List<Fonction> getPersonnelEnFonction() {
+   public java.util.List<Personnel> getPersonnelEnFonction() {
       if (personnelEnFonction == null)
-    	  personnelEnFonction = new java.util.ArrayList<Fonction>();
+    	  personnelEnFonction = new java.util.ArrayList<Personnel>();
       return personnelEnFonction;
    }
    
    /** @pdGenerated default iterator getter */
    public java.util.Iterator getIteratorPersonnelEnFonction() {
       if (personnelEnFonction == null)
-    	  personnelEnFonction = new java.util.ArrayList<Fonction>();
+    	  personnelEnFonction = new java.util.ArrayList<Personnel>();
       return personnelEnFonction.iterator();
    }
    
    /** @pdGenerated default setter
      * @param newAdministratif */
-   public void setPersonnelEnFonction(java.util.List<Fonction> newAdministratif) {
+   public void setPersonnelEnFonction(java.util.List<Personnel> newAdministratif) {
       removeAllPersonnelEnFonction();
       for (java.util.Iterator iter = newAdministratif.iterator(); iter.hasNext();)
-          addPersonnelEnFonction((Fonction)iter.next());
+          addPersonnelEnFonction((Personnel)iter.next());
    }
    
    /** @pdGenerated default add
      * @param newAdministratif */
-   public void addPersonnelEnFonction(Fonction newAdministratif) {
+   public void addPersonnelEnFonction(Personnel newAdministratif) {
       if (newAdministratif == null)
          return;
       if (this.personnelEnFonction == null)
-         this.personnelEnFonction = new java.util.ArrayList<Fonction>();
+         this.personnelEnFonction = new java.util.ArrayList<Personnel>();
       if (!this.personnelEnFonction.contains(newAdministratif)){
     	  newAdministratif.setEcole(this);
     	  this.personnelEnFonction.add(newAdministratif);
@@ -68,7 +80,7 @@ public class Ecole {
    
    /** @pdGenerated default remove
      * @param oldAdministratif */
-   public void removePersonnelEnFonction(Fonction oldAdministratif) {
+   public void removePersonnelEnFonction(Personnel oldAdministratif) {
       if (oldAdministratif == null)
          return;
       if (this.personnelEnFonction != null)
@@ -82,58 +94,10 @@ public class Ecole {
    public void removeAllPersonnelEnFonction() {
       if (personnelEnFonction != null){
     	  for (java.util.Iterator iter = personnelEnFonction.iterator(); iter.hasNext();)
-              ((Fonction)iter.next()).setEcole(null);
+              ((Personnel)iter.next()).setEcole(null);
     	  personnelEnFonction.clear();
       }
     	  
    }
-   /** @pdGenerated default getter */
-   public java.util.Collection<Enseignant> getEnseignant() {
-      if (enseignant == null)
-         enseignant = new java.util.HashSet<Enseignant>();
-      return enseignant;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorEnseignant() {
-      if (enseignant == null)
-         enseignant = new java.util.HashSet<Enseignant>();
-      return enseignant.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newEnseignant */
-   public void setEnseignant(java.util.Collection<Enseignant> newEnseignant) {
-      removeAllEnseignant();
-      for (java.util.Iterator iter = newEnseignant.iterator(); iter.hasNext();)
-         addEnseignant((Enseignant)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newEnseignant */
-   public void addEnseignant(Enseignant newEnseignant) {
-      if (newEnseignant == null)
-         return;
-      if (this.enseignant == null)
-         this.enseignant = new java.util.HashSet<Enseignant>();
-      if (!this.enseignant.contains(newEnseignant))
-         this.enseignant.add(newEnseignant);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldEnseignant */
-   public void removeEnseignant(Enseignant oldEnseignant) {
-      if (oldEnseignant == null)
-         return;
-      if (this.enseignant != null)
-         if (this.enseignant.contains(oldEnseignant))
-            this.enseignant.remove(oldEnseignant);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllEnseignant() {
-      if (enseignant != null)
-         enseignant.clear();
-   }
-
+  
 }
